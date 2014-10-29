@@ -1,0 +1,9 @@
+{
+  "hostname": "workshop.dev",
+  "memory": 1024,
+  "vm.boxname": "workshopbox",
+  "vm.ip": "192.168.56.101",
+  "vm.box": "ubuntu_14_04_cloud",
+  "puppet.manifest": "lnmp.pp",
+  "synced_folder_nfs": true
+}

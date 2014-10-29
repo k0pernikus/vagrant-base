@@ -4,13 +4,15 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
+project=JSON.parse(File.read("vagrant.json"))
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "ubuntu_14_04_cloud"
+  config.vm.box = project["vm.box"]
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -120,22 +122,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   #   chef.validation_client_name = "ORGNAME-validator"
 
-  config.vm.network "private_network", ip: "192.168.56.101"
+  config.vm.network "private_network", ip: project["vm.ip"]
 
-  config.vm.hostname = "workshop.dev"
+  config.vm.hostname = project["hostname"]
 
-  config.vm.synced_folder "./", "/vagrant", id: "vagrant-root", :nfs => true
+  config.vm.synced_folder "./", "/vagrant", id: "vagrant-root", :nfs => project["synced_folder_nfs"]
 
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-    v.customize ["modifyvm", :id, "--memory", 512]
+    v.customize ["modifyvm", :id, "--memory", project['memory']]
     v.customize ["modifyvm", :id, "--name", "workshopbox"]
   end
 
   config.vm.provision :shell, :inline => 'apt-get update; apt-get install -y php5-cli'
 
   config.vm.provision :puppet do |puppet|
-    puppet.manifest_file = "lamp.pp"
+    puppet.manifest_file = project["puppet.manifest"]
     puppet.manifests_path = "puppet/manifests"
     puppet.module_path = "puppet/modules"
     puppet.options = ["--verbose"]
