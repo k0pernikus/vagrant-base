@@ -133,4 +133,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provision :shell, :inline => 'apt-get update; apt-get install -y php5-cli'
+
+  config.vm.provision :puppet do |puppet|
+    puppet.manifest_file = "hello.pp"
+    puppet.manifests_path = "puppet/manifests"
+    puppet.module_path = "puppet/modules"
+    puppet.options = ["--verbose"]
+  end
 end

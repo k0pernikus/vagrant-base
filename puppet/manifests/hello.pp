@@ -1,5 +1,5 @@
 notify { "HELLO !!!": }
 ->
-package { 'php5':
+package { 'php5-cli':
   ensure => present,
 }
