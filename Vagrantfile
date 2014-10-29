@@ -124,7 +124,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.hostname = "workshop.dev"
 
-  config.vm.synced_folder "~/src", "/vagrant", id: "vagrant-root", :nfs => true
+  config.vm.synced_folder "./", "/vagrant", id: "vagrant-root", :nfs => true
 
   config.vm.provider :virtualbox do |v|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
