@@ -1,0 +1,10 @@
+{
+    "name": "workshop.dev",
+    "memory": 1024,
+    "vm.hostname": "workshopbox",
+    "vm.ip": "192.168.56.101",
+    "vm.box": "ubuntu_14_04_cloud",
+    "vm.box_url": "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box",
+    "puppet.manifest": "lnmp.pp",
+    "synced_folder.nfs": false
+}

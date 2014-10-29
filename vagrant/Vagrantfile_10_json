@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+project=JSON.parse(File.read("vagrant.json"))
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = project["vm.box"]
+  config.vm.box_url = project["vm.box_url"]
+
+  config.vm.hostname = project["vm.hostname"]
+
+  config.vm.network "private_network", ip: project["vm.ip"]
+
+  config.vm.synced_folder "./", "/vagrant", id: "vagrant-root", :nfs => project["synced_folder.nfs"]
+
+  config.vm.provider :virtualbox do |v|
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    v.customize ["modifyvm", :id, "--memory", project["memory"]]
+    v.customize ["modifyvm", :id, "--name", project["name"]]
+  end
+
+  config.vm.provision :shell, :inline => 'apt-get update'
+
+  config.vm.provision :puppet do |puppet|
+    puppet.manifest_file  = project["puppet.manifest"]
+    puppet.manifests_path = "puppet/manifests"
+    puppet.module_path    = "puppet/modules"
+    puppet.options        = ["--verbose"]
+  end
+end

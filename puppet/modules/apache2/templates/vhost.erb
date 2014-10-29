@@ -1,0 +1,47 @@
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName <%= @server_name %>
+
+    DocumentRoot <%= @document_root %>
+
+    <Location />
+        Options +FollowSymLinks
+
+        Order allow,deny
+        Allow from all
+    </Location>
+
+    <Directory <%= @document_root %>>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride all
+        Order allow,deny
+        Allow from all
+
+        # New directive needed in Apache 2.4.3:
+        Require all granted
+
+#       <IfModule sapi_apache2.c>
+#           php_admin_flag engine on
+#       </IfModule>
+#       <IfModule mod_php5.c>
+#           php_admin_flag engine on
+#       </IfModule>
+    </Directory>
+
+    ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+    <Directory "/usr/lib/cgi-bin">
+        AllowOverride None
+        Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
