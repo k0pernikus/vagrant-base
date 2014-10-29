@@ -131,4 +131,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.customize ["modifyvm", :id, "--memory", 512]
     v.customize ["modifyvm", :id, "--name", "workshopbox"]
   end
+
+  config.vm.provision :shell, :inline => 'apt-get update; apt-get install -y php5-cli'
 end
