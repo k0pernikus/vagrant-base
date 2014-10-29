@@ -1,0 +1,7 @@
+forge "https://forge.puppetlabs.com"
+
+mod "puppetlabs-ntp"
+
+mod "elasticsearch-elasticsearch",
+  :git => "https://github.com/elasticsearch/puppet-elasticsearch.git",
+  :ref => '0.4.0'

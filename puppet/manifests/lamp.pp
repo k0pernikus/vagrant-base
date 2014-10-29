@@ -40,4 +40,4 @@ file { '/var/www':
 }
 ->
 class { 'mysql::server': }
-
+class { 'ntp': }
